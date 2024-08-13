@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambio de fondo entre videos</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+        }
+
+        #videoBackground {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        #changeButton {
+            position: relative;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 1;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <video id="videoBackground" autoplay loop muted>
+        <source src="video1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <button id="changeButton">Cambiar Fondo</button>
+
+    <script>
+        const videos = ["video1.mp4", "video2.mp4", "video3.mp4"];
+        let currentVideoIndex = 0;
+        const videoElement = document.getElementById("videoBackground");
+        const changeButton = document.getElementById("changeButton");
+
+        if (localStorage.getItem('currentVideoIndex')) {
+            currentVideoIndex = parseInt(localStorage.getItem('currentVideoIndex'));
+            videoElement.src = videos[currentVideoIndex];
+        }
+
+        changeButton.addEventListener("click", () => {
+            currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+            videoElement.src = videos[currentVideoIndex];
+            // Guardar el índice del video actual en localStorage
+            localStorage.setItem('currentVideoIndex', currentVideoIndex);
+        });
+    </script>
+
+</body>
+</html>
